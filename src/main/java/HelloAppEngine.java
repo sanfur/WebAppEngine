@@ -20,6 +20,11 @@ public class HelloAppEngine extends HttpServlet {
 
     response.getWriter().print("Hello App Engine!\r\n");
     
+    SaveToDataStore save = new SaveToDataStore();
+    save.execute();
+    
+    GetFromDataStore get = new GetFromDataStore();
+    get.execute();
     
 
   }
