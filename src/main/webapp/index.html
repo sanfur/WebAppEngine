@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  	<head>
+    	<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+    	
+    	<title>Sensor App</title>
+    	
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+			integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+			crossorigin=""/>
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.css" />		
+		<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+			integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+			crossorigin=""></script> 
+		<script src="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.js"></script>
+		
+		<style>
+			#mapid { 
+				height: 800px;
+				width: 100%;	
+			}     		        
+		</style>
+		
+	</head>
+
+  	<body>
+  		<div align="center">
+  			<h1>Sensor App</h1>
+  		</div>
+    	
+    	<div id="mapid">
+   	  		<script src="Map.js"></script>  	
+    	</div>
+  
+    	<table>
+      		<tr>
+        		<td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
+      		</tr>
+	      	<tr>
+	        	<td><a href='/hello'>The hello servlet</a></td>        
+	       	</tr>
+	       	<tr>
+	         	<td><a href='/save'>The save servlet</a></td>       
+	      	</tr>
+		</table>
+	</body>
+</html>
