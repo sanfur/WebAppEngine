@@ -1,0 +1,22 @@
+{
+	"sensors": [	
+		{
+			"id": 1,
+			"latitude":"46.84986",
+			"longitude":"9.53287"
+		}
+		,
+		{
+			"id": 2,
+			"latitude":"46.85986",
+			"longitude":"9.54287"
+		}
+		,
+		{
+			"id": 3,
+			"latitude":"0",
+			"longitude":"0"
+		}
+	]
+}
+
