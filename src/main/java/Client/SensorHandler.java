@@ -22,12 +22,11 @@ public class SensorHandler implements ISensorHandler{
 		return null;
 	}
 
-	public void setListOfGeoSensors(ArrayList<GeoSensor> sensor, ILocator locator) {
-		// TODO Auto-generated method stub
+	public void setListOfGeoSensors(ILocator locator) {
 		
 	}
 
-	public void setListOfSensors(ArrayList<Sensor> sensor, ILocator locator) {
+	public void setListOfSensors(ILocator locator) {
 		// TODO Auto-generated method stub
 		
 	}	
