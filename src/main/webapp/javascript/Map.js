@@ -18,22 +18,3 @@
 			});
 		}
 	});
-	
-//	function addMarkersToMap(){
-//	    $.get("https://heatmap-219120.appspot.com/api/sensors", function(data, status){
-//	        for(var i = 0; i < data.length; i++){
-//	            var marker = L.marker([data[i].location.latitude, data[i].location.longitude]).addTo(mymap);
-//	            marker.bindPopup();
-//	            marker.id = data[i].id;
-//	            marker.on('click', onMarkerClick );
-//	            function onMarkerClick(e) {
-//	                var popup = e.target.getPopup();
-//	                var chartId = "chart" + e.target.id;
-//	                popup.setContent(
-//	                    '<canvas id="' + chartId + '" width="400" height="400"><p>ERROR: Could not load data!</p></canvas>'
-//	                );
-//	                drawChart(document.getElementById(chartId), e.target.id);
-//	            }
-//	        }
-//	    });
-//	}
