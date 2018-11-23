@@ -2,21 +2,14 @@ package Client.SensorData;
 
 public class GeoSensor extends Sensor{
 
-	private double latitude;
-	private double longitude;
+	private Coordinates coordinates;
 	
-	public GeoSensor(int id, double timeStamp, double temp, double latitude, double longitude) {
+	public GeoSensor(int id, double timeStamp, double temp, Coordinates coordinates) {
 		super(id, timeStamp, temp);
-		this.latitude = latitude;
-		this.longitude = longitude;
+		this.coordinates = coordinates;
 	}
 	
-	public double getLatitude() {
-		return latitude;
+	public Coordinates getCoordinates() {
+		return coordinates;
 	}
-	
-	public double getLongitude() {
-		return longitude;
-	}
-
 }

@@ -1,15 +1,16 @@
 package Client;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import Client.SensorData.*;
 
 public class SensorHandler implements ISensorHandler{
 
-	private ILocator locator;
+	private ArrayList<Coordinates> coordinates;
 	
-	public SensorHandler(ILocator locator) {
-		this.locator = locator;
+	public SensorHandler(ArrayList<Coordinates> coordinates) {
+		
 	}
 	
 	public ArrayList<GeoSensor> getListOfGeoSensors() {
@@ -23,7 +24,11 @@ public class SensorHandler implements ISensorHandler{
 	}
 
 	public void setListOfGeoSensors(ILocator locator) {
-		
+		try {
+			coordinates = locator.getCoordinates();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setListOfSensors(ILocator locator) {
