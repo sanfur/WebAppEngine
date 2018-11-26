@@ -3,7 +3,7 @@ import java.io.IOException;
 import org.junit.Assert;
 import org.junit.Test;
 
-import Server.AppEngineServlet;
+import Servlets.AppEngineServlet;
 
 public class HelloAppEngineTest {
 

@@ -1,13 +1,11 @@
-package Client;
+package DataAcquisition;
 
 import java.util.ArrayList;
-import Client.SensorData.*;
+import DataAcquisition.SensorData.*;
 
 public interface ISensorHandler {
 	
 	public void setListOfGeoSensors(ILocator locator);
-	public void setListOfSensors(ILocator locator);
-	
 	public ArrayList<GeoSensor> getListOfGeoSensors();
-	public ArrayList<Sensor> getListOfSensors();
+	public void execute();
 }

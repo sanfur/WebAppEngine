@@ -1,4 +1,4 @@
-package Client.SensorData;
+package DataAcquisition.SensorData;
 
 public class GeoSensor extends Sensor{
 

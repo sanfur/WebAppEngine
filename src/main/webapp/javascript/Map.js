@@ -8,13 +8,15 @@
 	}).addTo(mymap);
 		
 	$.ajax({
-		url: 'api/sensors.json',
+		url: 'api/sensorObjects.json',
 		dataType: 'json',
 		type: 'get',
 		cache: false,
 		success: function(data){
 			$(data.sensors).each(function(index, value){
-				var marker = L.marker([value.latitude, value.longitude]).addTo(mymap);
+				var marker = L.marker([value.latitude, value.longitude])
+								.addTo(mymap)
+								.bindPopup("dfsfdgdfgfdgfdggsgfdfs");
 			});
 		}
 	});
