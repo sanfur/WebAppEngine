@@ -28,7 +28,10 @@ public class AppEngineServlet extends HttpServlet {
 	    
 	    // Data Acquisition
 	    SensorHandler sensorHandler = new SensorHandler();
-	    sensorHandler.execute();	        
+	    String folderPath = "D:\\Developement\\Github\\Repositories\\WebAppEngine\\src\\main\\input\\";
+	    String DBFile = "DB.txt";
+	    String testFile = "testLocation.txt";
+	    sensorHandler.execute(folderPath + testFile);	        
 	    
 	    // Data Storage
 	    DataStoreHandler dataHandler = new DataStoreHandler(sensorHandler.getListOfGeoSensors());

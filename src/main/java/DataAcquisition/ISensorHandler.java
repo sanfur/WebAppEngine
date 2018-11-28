@@ -5,7 +5,7 @@ import DataAcquisition.SensorData.*;
 
 public interface ISensorHandler {
 	
-	public void setListOfGeoSensors(ILocator locator);
+	public void setListOfGeoSensors(ILocator locator, String dataFile);
 	public ArrayList<GeoSensor> getListOfGeoSensors();
-	public void execute();
+	public void execute(String dataFile);
 }

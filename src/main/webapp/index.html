@@ -14,68 +14,32 @@
 			crossorigin=""></script> 
 		<script src="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.js"></script>
      	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 		
 		<style>
-			#toolbarid{
-				width: 100%;
-			}
 			#mapid { 
-				height: 1200px;
+				height: 1000px;
 				width: 100%;	
-			}   
-			
-			/* Add a black background color to the top navigation */
-			.topnav {
-			    background-color: #333;
-			    overflow: hidden;
-			}
-			
-			/* Style the links inside the navigation bar */
-			.topnav a {
-			    float: left;
-			    color: #f2f2f2;
-			    text-align: center;
-			    padding: 14px 16px;
-			    text-decoration: none;
-			    font-size: 17px;
-			}
-			
-			/* Change the color of links on hover */
-			.topnav a:hover {
-			    background-color: #ddd;
-			    color: black;
-			}
-			
-			/* Add a color to the active/current link */
-			.topnav a.active {
-			    background-color: #4CAF50;
-			    color: white;
-			}  
-			.topnav b{
-			    float: right;
-			    color: #f2f2f2;
-			    text-align: center;
-			    padding: 4px 16px;
-			    text-decoration: none;
-			    font-size: 27px;
-			}		        
+			}   		        
 		</style>
 		
 	</head>
 
-  	<body>
-  		<div class="topnav">
-  		  	<a class="active" href="#home">Home</a>
-  			<a href="#about">Options</a>
-  			<b id="titleid">Sensor App</b>
-  		</div>
-  	
-  		<div id="toolbarid" align="center">
-  		</div>
-    	
+  	<body>	
+
     	<div id="mapid">
    	  		<script src="javascript/Map.js"></script>  	
     	</div> 
+    	
+		<div id="tester" style="width:800px;height:300px;"></div>
+		<script>
+			TESTER = document.getElementById('tester');
+			Plotly.plot( TESTER, [{
+			x: [1, 2, 3, 4, 5],
+			y: [1, 2, 4, 8, 16] }], {
+			margin: { t: 0 } } );
+		</script>
+		
     	<table>
       		<tr>
         		<td colspan="2" style="font-weight:bold;">Available Servlets:</td>        

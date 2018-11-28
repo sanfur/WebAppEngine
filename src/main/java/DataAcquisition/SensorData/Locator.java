@@ -7,16 +7,14 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LocatorDB implements ILocator{
+public class Locator implements ILocator{
 	
-	public ArrayList<Coordinates> getCoordinates() throws FileNotFoundException {
+	public ArrayList<Coordinates> getCoordinates(String dataFile) throws FileNotFoundException {
 		
 		ArrayList<Coordinates> geoLocations = new ArrayList<Coordinates>();
 		//TODO: change absolute to relative path
-		Scanner scanner = new Scanner(new File("D:\\Developement\\Github\\Repositories\\WebAppEngine\\src\\main\\input\\DB.txt"));
-		// "D:\\Developement\\Github\\Repositories\\WebAppEngine\\src\\main\\input\\DB.txt"
+		Scanner scanner = new Scanner(new File(dataFile));
 		int line = 0;
-
 		
 		while(scanner.hasNextLine()) {
 			String xAndYAxis = scanner.nextLine();			
@@ -32,8 +30,8 @@ public class LocatorDB implements ILocator{
 			line++;
 			if(regexMatcher.matches()) {			
 				Coordinates coordinates = new Coordinates();
-				coordinates.setLat(Double.parseDouble(regexMatcher.group(2)));
-				coordinates.setLong(Double.parseDouble(regexMatcher.group(1)) * 1.5);									
+				coordinates.setLat(Double.parseDouble(regexMatcher.group(1)));
+				coordinates.setLong(Double.parseDouble(regexMatcher.group(2)));									
 				geoLocations.add(coordinates);
 
 			}	

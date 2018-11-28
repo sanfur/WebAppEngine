@@ -17,17 +17,17 @@ public class SensorHandler implements ISensorHandler{
 		return sensors;
 	}
 
-	public void execute() {
-	    LocatorDB locator = new LocatorDB();
-	    setListOfGeoSensors(locator);
+	public void execute(String dataFile) {
+	    Locator locator = new Locator();
+	    setListOfGeoSensors(locator, dataFile);
 	}
 	
-	public void setListOfGeoSensors(ILocator locator) {
+	public void setListOfGeoSensors(ILocator locator, String dataFile) {
 		try {
 			
 			int addedSensors = 0;
 			
-			coordinates = locator.getCoordinates();
+			coordinates = locator.getCoordinates(dataFile);
 			for(int i = 0; i < coordinates.size(); i++) {
 				GeoSensor sensor = new GeoSensor(i, 20, 30, coordinates.get(i));							
 				sensors.add(sensor);

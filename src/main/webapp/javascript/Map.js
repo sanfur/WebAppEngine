@@ -14,9 +14,11 @@
 		cache: false,
 		success: function(data){
 			$(data.sensors).each(function(index, value){
+				
 				var marker = L.marker([value.latitude, value.longitude])
 								.addTo(mymap)
 								.bindPopup("dfsfdgdfgfdgfdggsgfdfs");
+				
 			});
 		}
 	});
