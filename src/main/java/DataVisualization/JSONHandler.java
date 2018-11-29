@@ -23,7 +23,7 @@ public class JSONHandler {
 		this.entities = entities;
 	}
 
-	public void execute() throws JSONException, IOException {
+	public void execute(String filePath) throws JSONException, IOException {
 			
 		JSONObject jsonObj = new JSONObject();
 		JSONArray jsonArray = new JSONArray();
@@ -45,7 +45,7 @@ public class JSONHandler {
 		jsonObj.put("sensors", jsonArray);
 
 		//TODO: change absolute to relative path
-		try (FileWriter file = new FileWriter("D:\\Developement\\Github\\Repositories\\WebAppEngine\\src\\main\\webapp\\api\\sensorObjects.json")) {
+		try (FileWriter file = new FileWriter(filePath)) {
 			file.write(jsonObj.toString());
 			System.out.println("SUCCESS JSONHandler: Copied JSON Object to File, / Object: " + jsonObj);
 		}
@@ -54,8 +54,8 @@ public class JSONHandler {
 		}			
 	}
 	
-	public void deleteJSONObject() {
-		File file = new File("D:\\Developement\\Github\\Repositories\\WebAppEngine\\src\\main\\webapp\\api\\sensorObjects.json");
+	public void deleteJSONObject(String filePath) {
+		File file = new File(filePath);
 		if(file.delete()) {
 			System.out.println("SUCCESS JSONHandler: File sensorObjects.json deleted.");
 		}

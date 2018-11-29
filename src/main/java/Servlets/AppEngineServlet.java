@@ -28,25 +28,29 @@ public class AppEngineServlet extends HttpServlet {
 	    
 	    // Data Acquisition
 	    SensorHandler sensorHandler = new SensorHandler();
-	    String folderPath = "D:\\Developement\\Github\\Repositories\\WebAppEngine\\src\\main\\input\\";
+	    String atHomeFolderPath = "D:\\Developement\\Github\\Repositories\\WebAppEngine\\src\\main\\input\\";
+	    String atSchoolFolderPath = "D:\\CloudComputing\\WebAppEngine\\src\\main\\input\\";
 	    String DBFile = "DB.txt";
 	    String testFile = "testLocation.txt";
-	    sensorHandler.execute(folderPath + testFile);	        
+	    sensorHandler.execute(atSchoolFolderPath + testFile);	        
 	    
 	    // Data Storage
 	    DataStoreHandler dataHandler = new DataStoreHandler(sensorHandler.getListOfGeoSensors());
 	    dataHandler.saveToDataStore();
 	    
 	    // Data Visualization	  
+	    String atHomeFolderPathJSON = "D:\\Developement\\Github\\Repositories\\WebAppEngine\\src\\main\\webapp\\api\\";
+	    String atSchoolFolderPathJSON = "D:\\CloudComputing\\WebAppEngine\\src\\main\\webapp\\api\\";
+	    String JSONFile = "sensorObjects.json";
 	    JSONHandler json = new JSONHandler(dataHandler.getFromDataStore());	    
 	    try {
-			json.execute();
+			json.execute(atSchoolFolderPathJSON + JSONFile);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	    
 	    // Clean up
 	    dataHandler.deleteDataStore();
-//	    json.deleteJSONObject();
+//	    json.deleteJSONObject(atSchoolFolderPathJSON + JSONFile);
  	}
 }

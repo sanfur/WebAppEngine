@@ -29,7 +29,10 @@ public class SensorHandler implements ISensorHandler{
 			
 			coordinates = locator.getCoordinates(dataFile);
 			for(int i = 0; i < coordinates.size(); i++) {
-				GeoSensor sensor = new GeoSensor(i, 20, 30, coordinates.get(i));							
+				
+				TempDataHandler handl = new TempDataHandler();
+				
+				GeoSensor sensor = new GeoSensor(i, handl.GetTempData(), coordinates.get(i));							
 				sensors.add(sensor);
 				addedSensors++;
 			}

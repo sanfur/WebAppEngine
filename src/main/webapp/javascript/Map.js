@@ -14,11 +14,32 @@
 		cache: false,
 		success: function(data){
 			$(data.sensors).each(function(index, value){
-				
+			    
+				var div = $('<div id="chartID"; style="width: 300px; height: 200px;"></div>')[0];
 				var marker = L.marker([value.latitude, value.longitude])
 								.addTo(mymap)
-								.bindPopup("dfsfdgdfgfdgfdggsgfdfs");
+								.bindPopup(div);
 				
+				marker.on("click", function() {
+				      marker.openPopup();
+			    });	
+				
+				$(div).CanvasJSChart({ 
+					 width: 300,
+					 height: 200,
+					 data: [
+					{
+						type: "splineArea",
+						dataPoints: [
+							{ x: 10, y: 10 },
+							{ x: 20, y: 14 },
+							{ x: 30, y: 18 },
+							{ x: 40, y: 22 },
+							{ x: 50, y: 18 },
+							{ x: 60, y: 28 }
+						]
+					}]
+				});
 			});
 		}
 	});
