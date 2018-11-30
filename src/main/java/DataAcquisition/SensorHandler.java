@@ -44,4 +44,9 @@ public class SensorHandler implements ISensorHandler{
 			e.printStackTrace();
 		}
 	}
+
+	public void collectAllTemperatureData() {
+		// TODO Auto-generated method stub
+		
+	}
 }
