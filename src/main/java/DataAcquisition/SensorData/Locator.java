@@ -36,7 +36,6 @@ public class Locator implements ILocator{
 
 			}	
 			else {				
-				//TODO Testing File searched failed
 				System.out.println("FAILED LocatorDB: Adding coordinates on line " + line);
 			}
 		}		

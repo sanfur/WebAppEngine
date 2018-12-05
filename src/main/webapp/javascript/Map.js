@@ -8,12 +8,12 @@
 	}).addTo(mymap);
 		
 	$.ajax({
-		url: 'api/sensorObjects.json',
+		url: 'api/coordinates.json',
 		dataType: 'json',
 		type: 'get',
 		cache: false,
 		success: function(data){
-			$(data.sensors).each(function(index, value){
+			$(data.coordinates).each(function(index, value){
 			    
 				var div = $('<div id="chartID"; style="width: 300px; height: 200px;"></div>')[0];
 				var marker = L.marker([value.latitude, value.longitude])

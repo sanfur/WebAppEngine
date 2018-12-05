@@ -1,12 +1,9 @@
 package DataAcquisition;
 
-import java.util.ArrayList;
 import DataAcquisition.SensorData.*;
+import DataAcquisition.SensorData.TemperatureData.TemperatureData;
 
 public interface ISensorHandler {
 	
-	public void collectAllTemperatureData();
-	public void setListOfGeoSensors(ILocator locator, String dataFile);
-	public ArrayList<GeoSensor> getListOfGeoSensors();
-	public void execute(String dataFile);
+	public GeoSensor getGeoSensor(int id, TemperatureData tempData, Coordinates coordinates);
 }

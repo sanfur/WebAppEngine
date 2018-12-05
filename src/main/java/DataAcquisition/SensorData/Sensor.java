@@ -1,24 +1,22 @@
 package DataAcquisition.SensorData;
 
-import java.util.ArrayList;
+import DataAcquisition.SensorData.TemperatureData.TemperatureData;
 
 public class Sensor{
 
 	private int id;
-	private double timeStamp;
-	private double temp;
-	private ArrayList<TemperatureData> tempData;
+	private TemperatureData tempWithTimeData;
 	
-	public Sensor(int id, ArrayList<TemperatureData> tempData) {
+	public Sensor(int id, TemperatureData tempWithTimeData) {
 		this.id = id;
-		this.tempData = tempData;
-	}	
+		this.tempWithTimeData = tempWithTimeData;
+	}
 	
 	public int getID() {
 		return id;
 	}
 	
-	public ArrayList<TemperatureData> getTempData(){
-		return tempData;
+	public TemperatureData getTempWithTime() {
+		return tempWithTimeData;
 	}
 }
