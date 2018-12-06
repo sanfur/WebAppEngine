@@ -15,9 +15,9 @@ import com.google.appengine.api.datastore.Entity;
 public class JSONHandler {
 	
 	private List<Entity> coordinateEntities;
-	private ArrayList<List<Entity>> temperatureEntities;
+	private List<Entity> temperatureEntities;
 
-	public JSONHandler(List<Entity> coordinateEntities, ArrayList<List<Entity>> temperatureEntities) {
+	public JSONHandler(List<Entity> coordinateEntities, List<Entity> temperatureEntities) {
 		this.coordinateEntities = coordinateEntities;
 		this.temperatureEntities = temperatureEntities;
 	}
@@ -49,25 +49,16 @@ public class JSONHandler {
 	public void createTemperaturesObject(String filePath, int numberOfMeasurements) throws JSONException, IOException {
 		
 		JSONObject jsonObj = new JSONObject();
-		JSONObject tempObj = new JSONObject();
-		JSONObject measureObj = new JSONObject();
 		JSONArray tempArray = new JSONArray();
-		JSONArray idArray = new JSONArray();
-		for(int i = 0; i < numberOfMeasurements; i++) {
-			int index = 0;
-			for(List<Entity> entryList : temperatureEntities) {
-				JSONObject idObj = new JSONObject();
-				idObj.put("id", entryList.get(index).getProperty("ID").toString());
-				idObj.put("time", entryList.get(index).getProperty("Timestamp").toString());
-				idObj.put("temp", entryList.get(index).getProperty("Temperature").toString());
-				tempArray.put(tempObj);
-				idArray.put(idObj);
-				index++;
-			}
-			measureObj.put("measurement" + (i + 1), idArray);
-			tempArray.put(measureObj);
+		for(int i = 0; i < temperatureEntities.size(); i++) {
+			JSONObject tempObj = new JSONObject();
+			tempObj.put("measurement_id", temperatureEntities.get(i).getProperty("Measurement_ID").toString());
+			tempObj.put("temp_id", temperatureEntities.get(i).getProperty("ID").toString());
+			tempObj.put("time", temperatureEntities.get(i).getProperty("Timestamp").toString());
+			tempObj.put("temp", temperatureEntities.get(i).getProperty("Temperature").toString());
+			tempArray.put(tempObj);
 		}
-		jsonObj.put("temperatures", tempArray);
+		jsonObj.put("measurements", tempArray);
 
 		//TODO: change absolute to relative path
 		try (FileWriter file = new FileWriter(filePath)) {

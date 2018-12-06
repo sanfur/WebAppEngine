@@ -10,6 +10,7 @@ public class DataStoreHandler {
 	private ArrayList<Key> coordinatesKeys;
 	private ArrayList<Key> temperaturesKeys;
 	private int measurementsInStore = 0;
+	private int numberOfMeasurementEntities = 0;
 	public DataStoreHandler(ArrayList<GeoSensor> sensors) {
 		this.sensors = sensors;
 		coordinatesKeys = new ArrayList<Key>();
@@ -30,15 +31,16 @@ public class DataStoreHandler {
 	}
 	
 	public void saveTemperaturesToDataStore(GeoSensor sensor, int numberOfMeasurement) {
-		
+		numberOfMeasurementEntities++;
 		if(measurementsInStore < numberOfMeasurement) {
 			measurementsInStore = numberOfMeasurement;
 		}
 		
     	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Key sensorKey = KeyFactory.createKey("Measurement_" + numberOfMeasurement, sensor.getID());
+		Key sensorKey = KeyFactory.createKey("Measurements", numberOfMeasurementEntities);
 		Entity currentSensor = new Entity(sensorKey);
 		temperaturesKeys.add(sensorKey);
+    	currentSensor.setProperty("Measurement_ID", numberOfMeasurementEntities);
     	currentSensor.setProperty("ID", sensor.getID());
     	currentSensor.setProperty("Temperature", sensor.getTempWithTime().getTemperature());
     	currentSensor.setProperty("Timestamp", sensor.getTempWithTime().getTimeStamp());
@@ -46,33 +48,28 @@ public class DataStoreHandler {
 	}
 	
 	public List<Entity> getCoordinatesFromDataStore() {
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();		
+		DatastoreService dataStore = DatastoreServiceFactory.getDatastoreService();		
 		Query query = new Query("Coordinates");
-		PreparedQuery preparedQuery = datastore.prepare(query);
+		PreparedQuery preparedQuery = dataStore.prepare(query);
 		List<Entity> list = preparedQuery.asList(FetchOptions.Builder.withDefaults());	
 		return list;		
 	}
 	
-	public ArrayList<List<Entity>> getTemperaturesFromDataStore() {
-		ArrayList<List<Entity>> fullList = new ArrayList<List<Entity>>();
-		for(int i = 0; i < measurementsInStore; i++) {
-			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();		
-			Query query = new Query("Measurement_"+ (i + 1));
-			PreparedQuery preparedQuery = datastore.prepare(query);
-			List<Entity> list = preparedQuery.asList(FetchOptions.Builder.withDefaults());
-			fullList.add(list);
-		}
-		return fullList;
+	public List<Entity> getTemperaturesFromDataStore() {
+		
+		DatastoreService dataStore = DatastoreServiceFactory.getDatastoreService();		
+		Query query = new Query("Measurements");
+		PreparedQuery preparedQuery = dataStore.prepare(query);
+		List<Entity> list = preparedQuery.asList(FetchOptions.Builder.withDefaults());	
+		return list;
 	}
 	
-	public void deleteDataStore() {
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();	
-		for(Key sensorKey : coordinatesKeys) {
-			datastore.delete(sensorKey);
-		}
-		for(Key sensorKey : temperaturesKeys) {
-			datastore.delete(sensorKey);
-		}		
+	public void deleteDataStore(String entityKind) {
+		DatastoreService dataStore = DatastoreServiceFactory.getDatastoreService();			
+		Query query = new Query(entityKind);
+		PreparedQuery preparedQuery = dataStore.prepare(query);
+		List<Entity> list = preparedQuery.asList(FetchOptions.Builder.withDefaults());
+		list.forEach(entity -> {dataStore.delete(entity.getKey());});
 		System.out.println("SUCCESS DataStoreHandler: Datastore cleared.");
 	}
 }

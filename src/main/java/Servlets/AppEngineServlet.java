@@ -41,7 +41,7 @@ public class AppEngineServlet extends HttpServlet {
 	    String DBFile = "DB.txt";
 	    String testFile = "testLocation.txt";
 	    Locator locator = new Locator();
-	    coordinateList = locator.getCoordinates(atHomeFolderPath + testFile);
+	    coordinateList = locator.getCoordinates(atSchoolFolderPathPath + testFile);
 		System.out.println("AppEngineServlet: Added Coordinates to list: " + coordinateList.size());
 
 	    //	Set TimeAndTempData List
@@ -92,8 +92,8 @@ public class AppEngineServlet extends HttpServlet {
 	    JSONHandler json = new JSONHandler(dataHandler.getCoordinatesFromDataStore(), dataHandler.getTemperaturesFromDataStore());	    
 	    try {
 	    	if(dataStoreHasSensors) {
-	    		json.createCoordinatesObject(atHomeFolderPathJSON + coordinatesJSONFile);
-				json.createTemperaturesObject(atHomeFolderPathJSON + temperaturesJSONFile, numberOfMeasurements);	
+	    		json.createCoordinatesObject(atSchoolFolderPathJSON + coordinatesJSONFile);
+				json.createTemperaturesObject(atSchoolFolderPathJSON + temperaturesJSONFile, numberOfMeasurements);	
 	    	}
 	    	else
 	    	{
@@ -104,7 +104,12 @@ public class AppEngineServlet extends HttpServlet {
 		}
 	    
 	    // Clean up
-//	    dataHandler.deleteDataStore();
+	    String coordinatesEntityKind = "Coordinates";
+	    String temperaturesEntityKind = "Measurements";
+	    
+	    
+	    dataHandler.deleteDataStore(coordinatesEntityKind);
+	    dataHandler.deleteDataStore(temperaturesEntityKind);
 //	    json.deleteJSONObject(atSchoolFolderPathJSON + JSONFile);
  	}
 }
