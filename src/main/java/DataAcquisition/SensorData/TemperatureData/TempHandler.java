@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class TempHandler {
 
-	public double getRandomTemp() {		
+	public int getRandomTemp() {		
 		Random rand = new Random();
 		return rand.nextInt(35);
 	}

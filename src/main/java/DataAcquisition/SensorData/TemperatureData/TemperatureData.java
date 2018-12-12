@@ -3,9 +3,9 @@ package DataAcquisition.SensorData.TemperatureData;
 public class TemperatureData {
 
 	private long timeStamp;
-	private double temperature;
+	private int temperature;
 	
-	public TemperatureData(long timeStamp, double temperature) {
+	public TemperatureData(long timeStamp, int temperature) {
 		this.timeStamp = timeStamp;
 		this.temperature = temperature;
 	}
@@ -14,7 +14,7 @@ public class TemperatureData {
 		return timeStamp;	
 	}
 	
-	public double getTemperature() {
+	public int getTemperature() {
 		return temperature;	
 	}	
 }

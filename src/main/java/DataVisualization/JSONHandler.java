@@ -58,7 +58,7 @@ public class JSONHandler {
 			tempObj.put("temp", temperatureEntities.get(i).getProperty("Temperature").toString());
 			tempArray.put(tempObj);
 		}
-		jsonObj.put("measurements", tempArray);
+		jsonObj.put("temperature", tempArray);
 
 		//TODO: change absolute to relative path
 		try (FileWriter file = new FileWriter(filePath)) {

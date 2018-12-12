@@ -41,7 +41,7 @@ public class AppEngineServlet extends HttpServlet {
 	    String DBFile = "DB.txt";
 	    String testFile = "testLocation.txt";
 	    Locator locator = new Locator();
-	    coordinateList = locator.getCoordinates(atSchoolFolderPathPath + testFile);
+	    coordinateList = locator.getCoordinates(atHomeFolderPath + testFile);
 		System.out.println("AppEngineServlet: Added Coordinates to list: " + coordinateList.size());
 
 	    //	Set TimeAndTempData List
@@ -55,7 +55,6 @@ public class AppEngineServlet extends HttpServlet {
 	    }
 		System.out.println("AppEngineServlet: Added TemperatureData to list: " + tempDataList.size());
 
-	    
 	    //	Set Sensor List
 	    ArrayList<GeoSensor> sensorList = new ArrayList<GeoSensor>();
 	    SensorHandler sensorHandler = new SensorHandler();	    	    
@@ -65,10 +64,11 @@ public class AppEngineServlet extends HttpServlet {
 		System.out.println("AppEngineServlet: Added Sensors to list: " + sensorList.size());
 	    
 	    // Data Storage
+		
 	    DataStoreHandler dataHandler = new DataStoreHandler(sensorList);
 	    dataHandler.saveCoordinatesToDataStore();
 	   
-	    int numberOfMeasurements = 2;
+	    int numberOfMeasurements = 1;
 	    
     	for(int i = 0; i < numberOfMeasurements; i ++) {
     		for(GeoSensor sensor : sensorList) {	  	    			    		
@@ -84,7 +84,8 @@ public class AppEngineServlet extends HttpServlet {
     	// TODO: Check if Datastore has sensors in it
     	boolean dataStoreHasSensors = true;
 	    
-	    // Data Visualization	  
+	    // Data Visualization	
+    	
 	    String atHomeFolderPathJSON = "D:\\Developement\\Github\\Repositories\\WebAppEngine\\src\\main\\webapp\\api\\";
 	    String atSchoolFolderPathJSON = "D:\\CloudComputing\\WebAppEngine\\src\\main\\webapp\\api\\";
 	    String coordinatesJSONFile = "coordinates.json";
@@ -92,8 +93,8 @@ public class AppEngineServlet extends HttpServlet {
 	    JSONHandler json = new JSONHandler(dataHandler.getCoordinatesFromDataStore(), dataHandler.getTemperaturesFromDataStore());	    
 	    try {
 	    	if(dataStoreHasSensors) {
-	    		json.createCoordinatesObject(atSchoolFolderPathJSON + coordinatesJSONFile);
-				json.createTemperaturesObject(atSchoolFolderPathJSON + temperaturesJSONFile, numberOfMeasurements);	
+	    		json.createCoordinatesObject(atHomeFolderPathJSON + coordinatesJSONFile);
+				json.createTemperaturesObject(atHomeFolderPathJSON + temperaturesJSONFile, numberOfMeasurements);	
 	    	}
 	    	else
 	    	{
@@ -104,6 +105,7 @@ public class AppEngineServlet extends HttpServlet {
 		}
 	    
 	    // Clean up
+	    
 	    String coordinatesEntityKind = "Coordinates";
 	    String temperaturesEntityKind = "Measurements";
 	    
