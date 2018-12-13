@@ -1,5 +1,3 @@
-	var tempData = [];
-
 	var mymap = L.map('mapid').setView([46.84986, 9.53287], 13);	
 	L.control.scale().addTo(mymap);
 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -7,7 +5,7 @@
     maxZoom: 18,
     id: 'mapbox.streets',
     accessToken: 'pk.eyJ1Ijoic2FuZnVyIiwiYSI6ImNqbmsxazd2czExM3ozcHBtanB6ZGg2MHkifQ.LrKOZy_Xx4HKSK7CviX7nA'
-	}).addTo(mymap);
+	}).addTo(mymap);	
 	
 	$.ajax({
 		url: 'api/coordinates.json',
@@ -18,105 +16,75 @@
 			$(data.coordinates).each(function(index, value){
 			    
 				var div = $('<div id="chartID"; style="width: 300px; height: 200px;"></div>')[0];
-			    var dpsB = [{x: 1,y: 10}];
-			    
-			    var i = 1;
-
 			    var marker = L.marker([value.latitude, value.longitude])
 								.addTo(mymap)
 								.bindPopup(div);
 
 				marker.on("click", function(element) {
-				    
+
+				    var dpsB = [{y: 1}];
+					 
+				    var chart = new CanvasJS.Chart("chartID",{
+				    	
+				    	title :{
+				    		text: "Measurements"
+				    	},
+				    	axisX: [{						
+				    		title: "Timestamps"
+				    	},
+				    	{
+				            lineColor: "#C24642"
+				    	}],
+				    	axisY: {						
+				    		title: "Temperature"
+				    	},
+						type: "spline",
+				    	data: [{
+				    		type: "line",
+				    		axisIndex: 0,
+				    		dataPoints : [{}]
+				    	},
+				    	{
+				    		type: "line",
+				    		axisIndex: 1,
+				    		dataPoints : [{}]
+				    	}]
+				    });
+					
 					$.ajax({
 						url: 'api/temperature.json',
 						dataType: 'json',
 						type: 'get',
 						cache: false,
-						success: function(measure){
-
-							$(measure.temperature).each(function(indexTemp, valueTemp){
-							  
-								var yValue = valueTemp.temp;
-								var xValue = (dpsB.length + 1);
-							    dpsB.push({x: xValue,y: yValue});
-							    console.log("X: " + xValue + " ; " + "Y: " + yValue);
+						success: function(data){
+							$(data.temperature).each(function(index, value){
+								var yValue = parseInt(value.temp, 10);
+								var xValue = parseInt(value.time, 10);
+								var length = chart.options.data[0].dataPoints.length;
+								chart.options.data[0].dataPoints.push({y: yValue});
+								chart.axisX[1].push({x: xValue});
 							    console.log("DPS B: " + dpsB);
-							    console.log("DPS A: " + dps);
 							    chart.render();
 							});	
 						}
-
 					});
-
-				    var chart = new CanvasJS.Chart("chartID",{
-
-				    	title :{
-				    		text: "Measurements"
-				    	},
-				    	axisX: {						
-				    		title: "Timestamps"
-				    	},
-				    	axisY: {						
-				    		title: "Temperature"
-				    	},
-				    	data: [{
-				    		type: "line",
-				    		dataPoints : dpsB
-				    	}]
-				    });
-				     					
-				    var updateInterval = 3000;
+				    	
+//				    var updateInterval = 1000;
+//				    setInterval(function(){updateChart(dpsB.length + 1, yVal, dpsB, chart)}, updateInterval);
 				    
-					
-				    var dps = [{x: 1, y: 10}, {x: 2, y: 10}, {x: 3, y: 10}, {x: 4, y: 10}, {x: 5, y: 10}];   //dataPoints. 
-				    var yVal = updateTempValue(1);	
-				    var updateInterval = 1000;
-					   
-				    setInterval(function(){updateChart(dpsB.length + 1, yVal, dpsB, chart)}, updateInterval);
-				    
+					chart.render();
 					marker.openPopup();
 			    });	
 			});
 		}
 	});
-	
-	function updateTempValue(index){
-		$.ajax({
-			url: 'api/temperature.json',
-			dataType: 'json',
-			type: 'get',
-			cache: false,
-			success: function(measure){
 
-				$(measure.temperature).each(function(indexTemp, valueTemp){
-				  
-					var yValue = valueTemp.temp;
-					var xValue = (dpsB.length + 1);
-				    dpsB.push({x: xValue,y: yValue});
-				    console.log("X: " + xValue + " ; " + "Y: " + yValue);
-				    console.log("DPS B: " + dpsB);
-				    console.log("DPS A: " + dps);
-				    chart.render();
-				    
-				});	
-			}
-
-		});
-	}
-	
 	function updateChart (xVal, yVal, dps, chart) {
-    	
-    	
 		yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
 		dps.push({x: xVal,y: yVal,});
-		
 		xVal++;
-	
 	chart.render();	
- 
 	// update chart after specified time. 
- 
 	};
 	
 
