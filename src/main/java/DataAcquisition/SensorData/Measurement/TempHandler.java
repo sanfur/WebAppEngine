@@ -1,4 +1,4 @@
-package DataAcquisition.SensorData.TemperatureData;
+package DataAcquisition.SensorData.Measurement;
 
 import java.util.Random;
 

@@ -1,1 +1,1 @@
-{"coordinates":[{"latitude":"46.84986","id":"1","longitude":"9.53287"},{"latitude":"46.85986","id":"2","longitude":"9.54287"},{"latitude":"46.86986","id":"3","longitude":"9.55287"}]}
+{"coordinates":[{"latitude":"46.84986","longitude":"9.53287","sensorID":"1"},{"latitude":"46.85986","longitude":"9.54287","sensorID":"2"},{"latitude":"46.86986","longitude":"9.55287","sensorID":"3"}]}

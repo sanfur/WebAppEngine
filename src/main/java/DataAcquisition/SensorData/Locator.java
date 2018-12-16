@@ -9,13 +9,13 @@ import java.util.regex.Pattern;
 
 public class Locator implements ILocator{
 	
-	public ArrayList<Coordinates> getCoordinates(String dataFile) throws FileNotFoundException {
+	public ArrayList<Sensor> getSensorCoordinates(String dataFile) throws FileNotFoundException {
 		
-		ArrayList<Coordinates> geoLocations = new ArrayList<Coordinates>();
+		ArrayList<Sensor> geoLocations = new ArrayList<Sensor>();
 		//TODO: change absolute to relative path
 		Scanner scanner = new Scanner(new File(dataFile));
 		int line = 0;
-		
+		int sensorID = 1;
 		while(scanner.hasNextLine()) {
 			String xAndYAxis = scanner.nextLine();			
 			// check for 1 to 3 digits, 
@@ -29,10 +29,13 @@ public class Locator implements ILocator{
 			
 			line++;
 			if(regexMatcher.matches()) {			
-				Coordinates coordinates = new Coordinates();
-				coordinates.setLat(Double.parseDouble(regexMatcher.group(1)));
-				coordinates.setLong(Double.parseDouble(regexMatcher.group(2)));									
-				geoLocations.add(coordinates);
+				Sensor sensor = new Sensor(
+						sensorID,
+						Double.parseDouble(regexMatcher.group(1)),
+						Double.parseDouble(regexMatcher.group(2))
+				);
+				sensorID++;
+				geoLocations.add(sensor);
 
 			}	
 			else {				
@@ -41,7 +44,6 @@ public class Locator implements ILocator{
 		}		
 		scanner.close();
 		
-		// TODO Testing (LocatorDB) Coordinates added to GeoLocationList
 		System.out.println("LocatorDB: Added Coordinates: " + geoLocations.size());
 		
 		return geoLocations;

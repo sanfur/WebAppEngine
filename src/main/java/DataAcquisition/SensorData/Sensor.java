@@ -1,22 +1,26 @@
 package DataAcquisition.SensorData;
 
-import DataAcquisition.SensorData.TemperatureData.TemperatureData;
-
 public class Sensor{
 
-	private int id;
-	private TemperatureData tempWithTimeData;
+	private int sensorID;
+	private double lat;
+	private double lon; 
 	
-	public Sensor(int id, TemperatureData tempWithTimeData) {
-		this.id = id;
-		this.tempWithTimeData = tempWithTimeData;
+	public Sensor(int sensorID, double lat, double lon) {
+		this.sensorID = sensorID;
+		this.lat = lat;
+		this.lon = lon;
 	}
 	
-	public int getID() {
-		return id;
+	public int getSensorID() {
+		return sensorID;
 	}
 	
-	public TemperatureData getTempWithTime() {
-		return tempWithTimeData;
+	public double getLat() {
+		return lat;
+	}
+	
+	public double getLong() {
+		return lon;
 	}
 }

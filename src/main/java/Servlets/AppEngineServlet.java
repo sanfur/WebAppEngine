@@ -3,115 +3,118 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import javax.servlet.*;
+import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONException;
 
-import DataAcquisition.*;
-import DataAcquisition.SensorData.*;
-import DataAcquisition.SensorData.TemperatureData.*;
 import DataStorage.*;
 import DataVisualization.*;
+import DataAcquisition.SensorData.*;
+import DataAcquisition.SensorData.Measurement.*;
 
 @WebServlet(
     name = "HelloAppEngine",
-    urlPatterns = {"/hello"}
+    urlPatterns = {"/finished"}
 )
 public class AppEngineServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	private String atHomeFolderPath = "D:\\Developement\\Github\\Repositories\\WebAppEngine\\src\\main\\input\\";
+	private String atSchoolFolderPathPath = "D:\\CloudComputing\\WebAppEngine\\src\\main\\input\\";
+	private String DBFile = "DB.txt";
+	private String testFile = "testLocation.txt";
+    
+	private String atHomeFolderPathJSON = "D:\\Developement\\Github\\Repositories\\WebAppEngine\\src\\main\\webapp\\api\\";
+	private String atSchoolFolderPathJSON = "D:\\CloudComputing\\WebAppEngine\\src\\main\\webapp\\api\\";
+	private String coordinatesJSONFile = "coordinates.json";
+	private String temperaturesJSONFile = "temperature.json";
+    
+	private int numberOfMeasurements = 9;
+	private int timeToSleepInSeconds = 5;
+	private ArrayList<Sensor> plainSensors = new ArrayList<Sensor>();
+	
+	private Locator locator;
+	private TempHandler tempHandler;
+	private TimeStampCollector timeStampCollector;
+	private DataStoreHandler dataStoreHandler;
+	private JSONHandler json;
+	
+	public void init(ServletConfig config) throws ServletException {
+		    super.init(config);		    
+		    
+		    locator = new Locator();
+		    tempHandler = new TempHandler();
+		    timeStampCollector = new TimeStampCollector();
+		    dataStoreHandler = new DataStoreHandler();
+		    json = new JSONHandler();
+	}
+	
  	public void doGet(HttpServletRequest request, HttpServletResponse response) 
 	      throws IOException {
 	
 	    response.setContentType("text/plain");
 	    response.setCharacterEncoding("UTF-8");
-	    response.getWriter().print("Hello App Engine!\r\n");
+	    response.getWriter().print("No further temperatures to update!\r\n");
+	    	 
+	    // Delete Datastore
+	    dataStoreHandler.deleteDataStore();
 	    
-	    // Data Acquisition
-	    
-	    //	Set Coordinate List
-	    ArrayList<Coordinates> coordinateList = new ArrayList<Coordinates>();
+	    //	Create Sensors
+	    plainSensors = locator.getSensorCoordinates(atHomeFolderPath + testFile);
+		System.out.println("AppEngineServlet: Created Sensors: " + plainSensors.size());
 
-	    String atHomeFolderPath = "D:\\Developement\\Github\\Repositories\\WebAppEngine\\src\\main\\input\\";
-	    String atSchoolFolderPathPath = "D:\\CloudComputing\\WebAppEngine\\src\\main\\input\\";
-	    String DBFile = "DB.txt";
-	    String testFile = "testLocation.txt";
-	    Locator locator = new Locator();
-	    coordinateList = locator.getCoordinates(atSchoolFolderPathPath + testFile);
-		System.out.println("AppEngineServlet: Added Coordinates to list: " + coordinateList.size());
+		// Put Sensors to Datastore
+		for(Sensor sensor : plainSensors) {
+			dataStoreHandler.saveSensorToDataStore(sensor);
+		}		
+		System.out.println("AppEngineServlet: Added Sensors to Datastore");
 
-	    //	Set TimeAndTempData List
-	    ArrayList<TemperatureData> tempDataList = new ArrayList<TemperatureData>();
-	    
-	    TempHandler tempHandler = new TempHandler();
-	    TimeStampCollector timeStampCollector = new TimeStampCollector();
-	    for(int i = 0; i < coordinateList.size(); i++) {
-    		TemperatureData tempData = new TemperatureData(timeStampCollector.getTimeStamp(), tempHandler.getRandomTemp());
-    		tempDataList.add(tempData);
-	    }
-		System.out.println("AppEngineServlet: Added TemperatureData to list: " + tempDataList.size());
-
-	    //	Set Sensor List
-	    ArrayList<GeoSensor> sensorList = new ArrayList<GeoSensor>();
-	    SensorHandler sensorHandler = new SensorHandler();	    	    
-	    for(int i = 0; i < coordinateList.size(); i++) {
-    		sensorList.add(sensorHandler.getGeoSensor(i + 1, tempDataList.get(i), coordinateList.get(i)));
-	    }
-		System.out.println("AppEngineServlet: Added Sensors to list: " + sensorList.size());
-	    
-	    // Data Storage
+		// Create JSON-Object for Sensors
+		try {
+			json.createCoordinatesObject(atHomeFolderPathJSON + coordinatesJSONFile, dataStoreHandler.getCoordinatesFromDataStore());
+		} catch (JSONException e1) { e1.printStackTrace(); }
+		System.out.println("AppEngineServlet: Generated Coordinate JSON-Object");
 		
-	    DataStoreHandler dataHandler = new DataStoreHandler(sensorList);
-	    dataHandler.saveCoordinatesToDataStore();
-	   
-	    int numberOfMeasurements = 1;
-	    
-    	for(int i = 0; i < numberOfMeasurements; i ++) {
-    		for(GeoSensor sensor : sensorList) {	  	    			    		
-			    dataHandler.saveTemperaturesToDataStore(sensor, (i + 1));
-    		}
-    		try {
-    			int timeToSleepInSeconds = 1;
-    			System.out.println("AppEngineServlet: Started Sleep: " + timeToSleepInSeconds + " Seconds");
+		// Generate Measurements
+	    for(int i = 0; i < numberOfMeasurements; i++) {
+	    	ArrayList<MeasurementSensor> measurementSensors = new ArrayList<MeasurementSensor>();
+			for(Sensor sensor : plainSensors) {
+			    // Create Measurement
+		    	long timeStamp = timeStampCollector.getTimeStamp();
+		    	int temperature = tempHandler.getRandomTemp();
+		    	MeasurementSensor measurementSensor = new MeasurementSensor(
+		    			sensor.getSensorID(), 
+		    			sensor.getLat(), 
+		    			sensor.getLong(), 
+		    			timeStamp, 
+		    			temperature
+    			);
+		    	measurementSensors.add(measurementSensor);
+				System.out.println("AppEngineServlet: Added Measurements to Sensor: " + sensor.getSensorID());
+		    }
+			
+			// Put Measurements to Datastore
+			for(MeasurementSensor sensor : measurementSensors) {
+				dataStoreHandler.saveTemperaturesToDataStore(sensor);
+			}
+			System.out.println("AppEngineServlet: Added Measurements to Datastore");
+			
+			// Create JSON-Object for Sensors
+			try {
+				json.createMeasurementObject(atHomeFolderPathJSON + temperaturesJSONFile, dataStoreHandler.getTemperaturesFromDataStore());
+			} catch (JSONException e) { e.printStackTrace(); }	
+			System.out.println("AppEngineServlet: Generated Measurement JSON-Object");
+
+			// Wait an amount of time
+			
+			System.out.println("AppEngineServlet: Started Sleep: " + timeToSleepInSeconds + " Seconds");
+			try {
 				TimeUnit.SECONDS.sleep(timeToSleepInSeconds);
-				System.out.println("AppEngineServlet: Ended Sleep");
 			} catch (InterruptedException e) { e.printStackTrace(); }
-	    }
-    	// TODO: Check if Datastore has sensors in it
-    	boolean dataStoreHasSensors = true;
-	    
-	    // Data Visualization	
-    	
-	    String atHomeFolderPathJSON = "D:\\Developement\\Github\\Repositories\\WebAppEngine\\src\\main\\webapp\\api\\";
-	    String atSchoolFolderPathJSON = "D:\\CloudComputing\\WebAppEngine\\src\\main\\webapp\\api\\";
-	    String coordinatesJSONFile = "coordinates.json";
-	    String temperaturesJSONFile = "temperature.json";
-	    JSONHandler json = new JSONHandler(dataHandler.getCoordinatesFromDataStore(), dataHandler.getTemperaturesFromDataStore());	    
-	    try {
-	    	if(dataStoreHasSensors) {
-	    		json.createCoordinatesObject(atSchoolFolderPathJSON + coordinatesJSONFile);
-				json.createTemperaturesObject(atSchoolFolderPathJSON + temperaturesJSONFile, numberOfMeasurements);	
-	    	}
-	    	else
-	    	{
-	    		System.out.println("FAILED AppEngineServlet: Datastore is empty, no JSONObject made");
-	    	}
-		} catch (JSONException e) {
-			e.printStackTrace();
+			System.out.println("AppEngineServlet: Ended Sleep");						
 		}
-	    
-	    // Clean up
-	    
-	    String coordinatesEntityKind = "Coordinates";
-	    String temperaturesEntityKind = "Measurements";
-	    
-	    
-	    dataHandler.deleteDataStore(coordinatesEntityKind);
-	    dataHandler.deleteDataStore(temperaturesEntityKind);
-//	    json.deleteJSONObject(atSchoolFolderPathJSON + JSONFile);
- 	}
+ 	} 	
 }

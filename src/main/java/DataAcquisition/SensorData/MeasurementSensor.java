@@ -1,11 +1,12 @@
-package DataAcquisition.SensorData.TemperatureData;
+package DataAcquisition.SensorData;
 
-public class TemperatureData {
+public class MeasurementSensor extends Sensor{
 
 	private long timeStamp;
 	private int temperature;
 	
-	public TemperatureData(long timeStamp, int temperature) {
+	public MeasurementSensor(int sensorID, double lat, double lon, long timeStamp, int temperature) {
+		super(sensorID, lat, lon);
 		this.timeStamp = timeStamp;
 		this.temperature = temperature;
 	}
@@ -16,5 +17,5 @@ public class TemperatureData {
 	
 	public int getTemperature() {
 		return temperature;	
-	}	
+	}
 }
