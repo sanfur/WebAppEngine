@@ -11,21 +11,21 @@ import DataVisualization.JSONGenerator;
 
 public class SensorHandler {
 
-	private Locator locator;
+	private ILocator locator;
 	private DataStoreHandler dataStoreHandler;
 	private JSONGenerator jsonGenerator;
 	
-	public SensorHandler(Locator locator, DataStoreHandler dataStoreHandler, JSONGenerator jsonGenerator) {
+	public SensorHandler(ILocator locator, DataStoreHandler dataStoreHandler, JSONGenerator jsonGenerator) {
 		this.locator = locator;
 		this.dataStoreHandler = dataStoreHandler;
 		this.jsonGenerator = jsonGenerator;
 	}
 	
-	public ArrayList<Sensor> prepareSensors(String coordinatesFile, String coordinatesJSONFile) throws IOException {
+	public ArrayList<Sensor> prepareSensors(String coordinatesJSONFile) throws IOException {
 		
 		//	Create Sensors
 		ArrayList<Sensor> plainSensors = new ArrayList<Sensor>();
-	    plainSensors = locator.getSensorCoordinates(coordinatesFile);
+	    plainSensors = locator.getSensorCoordinates();
 		System.out.println("SensorHandler: Created Sensors: " + plainSensors.size());
 
 		// Put Sensors to Datastore

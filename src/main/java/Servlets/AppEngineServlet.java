@@ -30,10 +30,10 @@ public class AppEngineServlet extends HttpServlet {
 	private String temperaturesJSONFile = "/api/temperature.json";
     
 	private int numberOfMeasurements = 5;
-	private int timeToSleepInSeconds = 3;
+	private int timeToSleepInSeconds = 1;
 	private ArrayList<Sensor> plainSensors;
 	
-	private Locator locator;
+	private ILocator locator;
 	private TempHandler tempHandler;
 	private TimeStampCollector timeStampCollector;
 	private DataStoreHandler dataStoreHandler;
@@ -42,7 +42,7 @@ public class AppEngineServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		    super.init(config);		    
 		    
-		    locator = new Locator();
+		    locator = new ShowLocator();
 		    tempHandler = new TempHandler();
 		    timeStampCollector = new TimeStampCollector();
 		    dataStoreHandler = new DataStoreHandler();
@@ -51,7 +51,7 @@ public class AppEngineServlet extends HttpServlet {
 			// TODO; Local path
 			coordinatesJSONFile = getServletContext().getRealPath(coordinatesJSONFile);	
 			temperaturesJSONFile = getServletContext().getRealPath(temperaturesJSONFile);
-	        testFile = getServletContext().getRealPath(testFile);
+//	        testFile = getServletContext().getRealPath(testFile);
 	}
 	
  	public void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -64,10 +64,12 @@ public class AppEngineServlet extends HttpServlet {
 	    
 	    // Delete Datastore
 	    dataStoreHandler.deleteDataStore();
+	    	    
+	    locator.setFilePath(testFile);
 	    
 	    // Send Sensors to Datastore and Browser
 	    SensorHandler sensorHandler = new SensorHandler(locator, dataStoreHandler, jsonGenerator);
-	    plainSensors = sensorHandler.prepareSensors(testFile, coordinatesJSONFile);
+	    plainSensors = sensorHandler.prepareSensors(coordinatesJSONFile);
 	    
 	    // Send Measurement to Datastore and Browser
 	    MeasurementHandler measurementHandler = new MeasurementHandler(plainSensors, dataStoreHandler, jsonGenerator);

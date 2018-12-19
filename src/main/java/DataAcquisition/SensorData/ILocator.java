@@ -4,5 +4,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public interface ILocator {
-	public ArrayList<Sensor> getSensorCoordinates(String dataFile) throws FileNotFoundException;
+	public void setFilePath(String filePath);
+	public ArrayList<Sensor> getSensorCoordinates() throws FileNotFoundException;
 }

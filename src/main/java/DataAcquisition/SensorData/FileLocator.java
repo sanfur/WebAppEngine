@@ -7,9 +7,15 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Locator implements ILocator{
+public class FileLocator implements ILocator{
 	
-	public ArrayList<Sensor> getSensorCoordinates(String dataFile) throws FileNotFoundException {
+	private String dataFile;
+	
+	public void setFilePath(String dataFile){
+		this.dataFile = dataFile;
+	}
+	
+	public ArrayList<Sensor> getSensorCoordinates() throws FileNotFoundException {
 		
 		ArrayList<Sensor> geoLocations = new ArrayList<Sensor>();
 		Scanner scanner = new Scanner(new File(dataFile));

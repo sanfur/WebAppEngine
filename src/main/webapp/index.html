@@ -21,8 +21,16 @@
 	</head>
   	<body>	
   		<div id="buttonWrapper">
-	  	 	<a href='/getCSV' id="getCSV" type="button">Get CSV</a> 	
-	  	 	<a onclick="showButton();" href='/finished' id="updateChart" type="button">Update Sensor Data</a> 	
+	  	 	<a href='/getCSV' id="getCSV" type="button">Get CSV</a> 
+	  	 	<a onclick="showButton();" href='/finished' id="updateChart" type="button" type="file">Update Sensor Data</a> 	
+  	 		
+  	 		
+  	 		<form id="formid" method="POST" action="upload" enctype="multipart/form-data">
+  	 			<input id='fileid' type='file' name='filename' hidden>
+  	 		</form>
+  	 		
+  	 		
+  	 		<input type="file" hidden>
 	  	 	<a href='/deleteData' id="deleteData" type="button">Clear Chart</a> 	
   		</div>
 
