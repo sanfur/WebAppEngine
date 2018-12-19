@@ -12,7 +12,6 @@ public class Locator implements ILocator{
 	public ArrayList<Sensor> getSensorCoordinates(String dataFile) throws FileNotFoundException {
 		
 		ArrayList<Sensor> geoLocations = new ArrayList<Sensor>();
-		//TODO: change absolute to relative path
 		Scanner scanner = new Scanner(new File(dataFile));
 		int line = 0;
 		int sensorID = 1;

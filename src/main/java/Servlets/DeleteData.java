@@ -32,5 +32,6 @@ public class DeleteData extends HttpServlet {
 	    response.getWriter().print("Data deleted!\r\n");
 	    
 	    dataStoreHandler.deleteDataStore();
+
 	}
 }

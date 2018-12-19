@@ -20,6 +20,14 @@
 	  	z-index: 3000;
 	}
 	
+	#close{
+		float: right;
+		width: 30px;
+		height: 30px;
+		background: orange;
+		z-index: 4000;
+	}
+	
 	#chartContainer{ 
 	   		 
 		float: right;
@@ -81,7 +89,7 @@
 	
 	#averageHourly{
 		
-		right: 70%;
+		left: 1%;
 		bottom: 0%;
 		height: 35px; 
 		padding-top: 15px;
@@ -113,21 +121,37 @@
 	  	z-index: 2000;  	
  	} 
 	
-	#updateChart, #getCSV, #deleteData {
+	#updateChart, #getCSV {
 	
 		margin-left: 10px;
  		float: right;
-		background: #2394bc;
+		background: white;
 	  	z-index: 2000;  	
 		padding: 10px 20px 10px 20px;
 		border-radius: 8px;
  	
 		font-family: 'Arial Rounded MT Bold', sans-serif;
 		font-size: 21px;
-		color: white;
+		color: #2394bc;
 		text-align: center;
 		text-decoration: none;
 	} 
+	
+	#deleteData {
+		display: none;
+		margin-left: 10px;
+ 		float: right;
+		background: white;
+	  	z-index: 2000;  	
+		padding: 10px 20px 10px 20px;
+		border-radius: 8px;
+ 	
+		font-family: 'Arial Rounded MT Bold', sans-serif;
+		font-size: 21px;
+		color: #2394bc;
+		text-align: center;
+		text-decoration: none;
+	}
 	
 	#updateChart:hover{
 	
