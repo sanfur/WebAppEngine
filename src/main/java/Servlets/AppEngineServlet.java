@@ -29,8 +29,8 @@ public class AppEngineServlet extends HttpServlet {
 	private String coordinatesJSONFile = "/api/coordinates.json";
 	private String temperaturesJSONFile = "/api/temperature.json";
     
-	private int numberOfMeasurements = 5;
-	private int timeToSleepInSeconds = 1;
+	private int numberOfMeasurements = 15;
+	private int timeToSleepInSeconds = 3;
 	private ArrayList<Sensor> plainSensors;
 	
 	private ILocator locator;

@@ -104,19 +104,9 @@
 	}
 	
 	function showButton(){
-		
-		function openDialog(){
-			document.getElementByID('fileid').click();
-		}
-		
-		function submitForm(){
-            document.getElementById('formid').submit();
-		}
-		
-		function deleteData(){
-			var button = document.getElementById("deleteData");
-			button.style.display = "block";
-		}
+
+		var button = document.getElementById("deleteData");
+		button.style.display = "block";
 	}
 
 
