@@ -121,7 +121,7 @@
 	  	z-index: 2000;  	
  	} 
 	
-	#updateChart, #getCSV {
+	#updateChart, #getCSV, #imgupload {
 	
 		margin-left: 10px;
  		float: right;
@@ -138,7 +138,6 @@
 	} 
 	
 	#deleteData {
-		display: none;
 		margin-left: 10px;
  		float: right;
 		background: white;

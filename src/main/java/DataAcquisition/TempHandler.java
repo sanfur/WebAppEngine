@@ -1,4 +1,4 @@
-package DataAcquisition.SensorData.Measurement;
+package DataAcquisition;
 
 import java.util.Random;
 

@@ -1,4 +1,4 @@
-package DataAcquisition.SensorData;
+package DataAcquisition;
 
 public class MeasurementSensor extends Sensor{
 

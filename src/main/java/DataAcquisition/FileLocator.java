@@ -1,7 +1,7 @@
-package DataAcquisition.SensorData;
+package DataAcquisition;
 
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -9,16 +9,10 @@ import java.util.regex.Pattern;
 
 public class FileLocator implements ILocator{
 	
-	private String dataFile;
-	
-	public void setFilePath(String dataFile){
-		this.dataFile = dataFile;
-	}
-	
-	public ArrayList<Sensor> getSensorCoordinates() throws FileNotFoundException {
+	public ArrayList<Sensor> getSensorCoordinates(InputStream inputStream) throws FileNotFoundException {
 		
 		ArrayList<Sensor> geoLocations = new ArrayList<Sensor>();
-		Scanner scanner = new Scanner(new File(dataFile));
+		Scanner scanner = new Scanner(inputStream);
 		int line = 0;
 		int sensorID = 1;
 		while(scanner.hasNextLine()) {

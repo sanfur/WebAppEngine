@@ -103,11 +103,5 @@
 		return parseInt(average);
 	}
 	
-	function showButton(){
-
-		var button = document.getElementById("deleteData");
-		button.style.display = "block";
-	}
-
 
 
