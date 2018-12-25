@@ -14,6 +14,7 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
+import Utility.DataStoreHandler;
 import Utility.JSONGenerator;
 
 @WebServlet("/api/*")
@@ -23,48 +24,45 @@ public class ApiServlet extends HttpServlet {
        
 	private DatastoreService datastoreService;
 	private JSONGenerator jsonGenerator;
+	private DataStoreHandler datastoreHandler;
+	
     public ApiServlet() {
         super();
         datastoreService = DatastoreServiceFactory.getDatastoreService();
         jsonGenerator = new JSONGenerator();
+        datastoreHandler = new DataStoreHandler();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println("Request: " + request.getRequestURI());
 		String obj = "";
 
-		if(request.getRequestURI().contains("coordinates.json")) {
-			Key jsonKey = KeyFactory.createKey("JSON", 1);
+		if(request.getRequestURI().contains("sensors")) {
 			try {
-				Entity entity = datastoreService.get(jsonKey);
-				obj = entity.getProperty("object").toString();
-				System.out.println("ApiServlet GET: " + obj);
+				
+				obj = datastoreHandler.getJsonFromDatastore(1, datastoreService);
+				
 			} catch (EntityNotFoundException e) {e.printStackTrace();}
+		    response.setContentType("application/json");
 			response.getWriter().append(obj);
 		}
-		else if(request.getRequestURI().contains("temperature.json")) {
-			Key jsonKey = KeyFactory.createKey("JSON", 2);
+		else if(request.getRequestURI().contains("measurements")) {
 			try {
-				Entity entity = datastoreService.get(jsonKey);
-				obj = entity.getProperty("object").toString();
-				System.out.println("ApiServlet GET: " + obj);
+				
+				obj = datastoreHandler.getJsonFromDatastore(2, datastoreService);
+				
 			} catch (EntityNotFoundException e) {e.printStackTrace();}
+		    response.setContentType("application/json");
 			response.getWriter().append(obj);
 		}
 		else if(request.getRequestURI().contains("CSV")) {
-
-		    Key coordsJsonKey = KeyFactory.createKey("JSON", 1);
-			Key measureJsonKey = KeyFactory.createKey("JSON", 2);
 			String coords = "";
 			String measure = "";
 			try {
-				Entity coordsEntity = datastoreService.get(coordsJsonKey);
-				Entity measureEntity = datastoreService.get(measureJsonKey);
-				coords = coordsEntity.getProperty("object").toString();
-				measure = measureEntity.getProperty("object").toString();
-				System.out.println("ApiServlet GET: " + coords);
-				System.out.println("ApiServlet GET: " + measure);
+				
+				coords = datastoreHandler.getJsonFromDatastore(1, datastoreService);
+				measure = datastoreHandler.getJsonFromDatastore(2, datastoreService);
+				
 			} catch (EntityNotFoundException e) {e.printStackTrace();}
 		    
 		    String file = jsonGenerator.convertToCSV(coords, measure);

@@ -17,6 +17,8 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
+import Utility.DataStoreHandler;
+
 @WebServlet(
 		urlPatterns = {"/deleteData"}
 )
@@ -25,32 +27,20 @@ public class DeleteData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private DatastoreService datastoreService;
+	private DataStoreHandler datastoreHandler;
 	
 	public void init(ServletConfig config) throws ServletException {
 	    super.init(config);		    
         datastoreService = DatastoreServiceFactory.getDatastoreService();
+        datastoreHandler = new DataStoreHandler();
 }
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// Delete Coordiantes		
-		Query queryCoordinates = new Query("Coordinates");
-		PreparedQuery preparedQueryCoordinates = datastoreService.prepare(queryCoordinates);
-		List<Entity> coordinates = preparedQueryCoordinates.asList(FetchOptions.Builder.withDefaults());
-		coordinates.forEach(entity -> {datastoreService.delete(entity.getKey());});
-		
-		// Delete Measurements		
-		Query queryMeasurements = new Query("Measurements");
-		PreparedQuery aredQueryMeasurements = datastoreService.prepare(queryMeasurements);
-		List<Entity> measurements = aredQueryMeasurements.asList(FetchOptions.Builder.withDefaults());
-		measurements.forEach(entity -> {datastoreService.delete(entity.getKey());});
-		
-		// Delete JSON		
-		Query queryJSON = new Query("JSON");
-		PreparedQuery preparedQueryJSON = datastoreService.prepare(queryJSON);
-		List<Entity> JSONentity = preparedQueryJSON.asList(FetchOptions.Builder.withDefaults());
-		JSONentity.forEach(entity -> {datastoreService.delete(entity.getKey());});
-		
+	    datastoreHandler.deleteEntitiesOfKind("Coordinates", datastoreService);
+	    datastoreHandler.deleteEntitiesOfKind("Measurements", datastoreService);
+	    datastoreHandler.deleteEntitiesOfKind("JSON", datastoreService);
+
 	    response.setContentType("text/plain");
 	    response.setCharacterEncoding("UTF-8");
 	    response.getWriter().print("Data deleted!\r\n");

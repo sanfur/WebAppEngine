@@ -21,12 +21,22 @@ public class FileInterpreter {
 		plainSensors = new ArrayList<Sensor>();
 	}
 	
+	public boolean hasFile(HttpServletRequest request) throws IOException, ServletException {
+		Part filePart = request.getPart("geoData");
+ 	    InputStream fileContent = filePart.getInputStream(); 
+ 	    if(fileContent.available() == 0) {
+ 	    	return false;
+ 	    }
+ 	    else {
+ 	    	return true;
+ 	    }
+	}
+	
 	public ArrayList<Sensor> getSensors(HttpServletRequest request) throws IOException, ServletException{
 		
 		// Get Textfile
  	    Part filePart = request.getPart("geoData"); 
  	    InputStream fileContent = filePart.getInputStream(); 		
- 	    System.out.println("FileInterpreter: Content written: " + fileContent);
  	    
  	    // Make Sensors out of Textfile
 	    plainSensors = locator.getSensorCoordinates(fileContent);		

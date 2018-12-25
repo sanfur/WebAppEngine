@@ -8,7 +8,7 @@
 	}).addTo(mymap);	
 	
 	$.ajax({
-		url: 'api/coordinates.json',
+		url: 'api/sensors',
 		dataType: 'json',
 		type: 'get',
 		cache: false,
@@ -58,7 +58,7 @@
 				    });
 					
 					$.ajax({
-						url: 'api/temperature.json',
+						url: 'api/measurements',
 						dataType: 'json',
 						type: 'get',
 						cache: false,
