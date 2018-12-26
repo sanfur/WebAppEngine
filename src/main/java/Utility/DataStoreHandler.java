@@ -11,6 +11,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Text;
 
 import DataAcquisition.MeasurementSensor;
 import DataAcquisition.Sensor;
@@ -50,15 +51,17 @@ public class DataStoreHandler {
 	
 	public void putJsonToDatastore(int key, String propertyValue, DatastoreService datastoreService) {
 		Key coordinatesJSONKey = KeyFactory.createKey("JSON",key);
+		Text jsonText = new Text(propertyValue);
 		Entity jsonEntity = new Entity(coordinatesJSONKey);
-		jsonEntity.setProperty("object", propertyValue);
+		jsonEntity.setProperty("object", jsonText);
     	datastoreService.put(jsonEntity);
 	}
 	
 	public String getJsonFromDatastore(int key, DatastoreService datastoreService) throws EntityNotFoundException {
 		Key jsonKey = KeyFactory.createKey("JSON", key);
 		Entity entity = datastoreService.get(jsonKey);
-		return entity.getProperty("object").toString();
+		Text text = (Text)entity.getProperty("object");
+		return text.getValue();
 	}
 	
 	public int putMeasurementsToDatastore(int measurementsInDatastore, ArrayList<MeasurementSensor> measurementSensors, DatastoreService datastoreService) {

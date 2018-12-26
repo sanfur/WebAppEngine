@@ -1,6 +1,5 @@
 package Servlets;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -11,7 +10,6 @@ import javax.servlet.annotation.*;
 
 import org.json.JSONException;
 import com.google.appengine.api.datastore.*;
-import com.google.appengine.api.socket.SocketServicePb.RemoteSocketServiceError.SystemError;
 
 import Utility.*;
 import DataAcquisition.*;
@@ -25,7 +23,7 @@ public class AppEngineServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
     
-	private int numberOfMeasurements = 5;
+	private int numberOfMeasurements = 2;
 	private int timeToSleepInSeconds = 3;
 	
 	private ILocator locator;
